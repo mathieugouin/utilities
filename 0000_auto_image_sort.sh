@@ -6,9 +6,6 @@
 # Date
 #identify -format %[EXIF:DateTime] IMG_2202.JPG
 
-# Auto folder sort
-
-#!/bin/bash
 # TBD Adjust here
 rel_path=..
 # for f in $(ls *.[jJ][pP][gG])
