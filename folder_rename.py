@@ -29,9 +29,14 @@ def get_month(m):
         return 0  # TBD
 
 
+def is_new_format(f):
+    m = re.match(u"(\d{4})-(\d{2})-(\d{2}), (.+?)", f)
+    return m is not None
+
+
 def get_new_name(old_name):
     new_name = old_name
-    m = re.match(u"(.*?), (\d+) ([^ ]+) (\d{4})", old_name)
+    m = re.match(u"(.+?), (\d+) ([^ ]+) (\d{4})", old_name)
     if m:
         #print "  MATCH =", m.groups()
         new_name = u'{:04d}-{:02d}-{:02d}, {}'.format(int(m.group(4)), get_month(m.group(3)), int(m.group(2)), m.group(1))
@@ -44,11 +49,13 @@ def folder_find(d):
     for f in os.listdir(d):
         if os.path.isdir(os.path.join(d, f)):
             f = unicode(f, 'utf-8')
-            print "  FOLDER   = " + f
-            new_name = get_new_name(f)
-            if new_name != f:
-                print "  NEW_NAME = " + new_name
-                # TBD rename when OK
+            if not is_new_format(f):
+                new_name = get_new_name(f)
+                if new_name != f:  # got a new name
+                    print u"  Renaming {} -> {}".format(f, new_name)
+                    os.rename(os.path.join(d, f), os.path.join(d, new_name))
+                else:  # was not able to get a new name
+                    print "  ************** WRONG folder name: " + f
 
 
 def test_file():
@@ -60,7 +67,8 @@ def test_file():
 
 
 def test_path():
-    r = '/media/mgouin/GRAY_500GB/Photos/2014'
+    r = '/media/mgouin/GRAY_500GB/Photos/2012'
+    #r = '/media/mgouin/GRAY_500GB/Photos/0_TEST'
     folder_find(r)
 
 
