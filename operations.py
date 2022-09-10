@@ -96,13 +96,10 @@ def sub_quiz():
 
 op_dic = {
     0: add_quiz,
-    #1: sub_quiz,
-    #2: mul_quiz,
+    1: sub_quiz,
+    2: mul_quiz,
 }
 
 while True:
     op = random.randint(0, len(op_dic) - 1) # [min - max]
     op_dic[op]()
-    #add_quiz()
-    #sub_quiz()
-    #mul_quiz()
