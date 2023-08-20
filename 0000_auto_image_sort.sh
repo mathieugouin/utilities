@@ -9,7 +9,7 @@
 # Auto folder sort
 
 # TBD Adjust here
-rel_path=..
+rel_path=../001-Photos_triées
 find -iname "*.jpg" | while read f
 do
     echo Procesing image: $f ...
@@ -22,6 +22,7 @@ do
     y=$(echo $d | cut -d '-' -f 1)
     final_dir="$rel_path/$y/$d"
     mkdir -p $final_dir
-    echo "    moving to $final_dir"
-    mv -i "$f" $final_dir/
+    #echo "    moving to $final_dir"
+    # verbose, do not overwrite an existing file
+    \mv -vn "$f" $final_dir/
 done
