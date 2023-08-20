@@ -7,7 +7,7 @@
 
 # TBD Adjust here
 rel_path=../001-Vidéos_triés
-find -iname "*.mp4" | while read f
+find . -type f \( -iname "*.mp4" -o -iname "*.avi" \) | while read f
 do
     echo Procesing video: $f ...
     d=$(ffmpeg -i $f -dump 2>&1  | grep creation_time | head -n 1 | grep -Po '\d\d\d\d-\d\d-\d\d')
@@ -19,6 +19,6 @@ do
     y=$(echo $d | cut -d '-' -f 1)
     final_dir="$rel_path/$y/$d"
     mkdir -p $final_dir
-    echo "    moving to $final_dir"
-    mv -i "$f" $final_dir/
+    # verbose, do not overwrite an existing file
+    \mv -vn "$f" $final_dir/
 done
